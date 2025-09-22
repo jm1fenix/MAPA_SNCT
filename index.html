@@ -454,14 +454,6 @@
         }
       });
 
-      function showInfo(sector) {
-        if (sectors[sector]) {
-          popupTitle.innerHTML = sectors[sector].title;
-          popupContent.innerHTML = sectors[sector].content;
-          popup.classList.add("active");
-        }
-      }
-
       function closeInfo() {
         popup.classList.remove("active");
       }
@@ -477,17 +469,16 @@
       }
 
 // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
+// Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
 function showInfoFromUrl() {
   const sectorId = getUrlParameter('setor');
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
 
-    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" com a nova classe de destaque.
-    // O ponto final foi removido da string.
-    // Limpa o conteúdo e define o novo
-    popupTitle.innerHTML = sectorData.title;
-    popupContent.innerHTML = `<p class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</p>${sectorData.content}`;
+    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" no local correto
     popupLocationMessage.innerHTML = `VOCÊ ESTÁ AQUI 🚩`;
+    popupTitle.innerHTML = sectorData.title;
+    popupContent.innerHTML = sectorData.content;
 
     // Desenha o polígono destacado
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -498,7 +489,25 @@ function showInfoFromUrl() {
     popup.classList.add('active');
   }
 }
+
+// Função para exibir as informações do setor (sem a mensagem de localização)
+function showInfo(sector) {
+  if (sectors[sector]) {
+    // Remove a mensagem de localização, se houver
+    popupLocationMessage.innerHTML = '';
+    popupTitle.innerHTML = sectors[sector].title;
+    popupContent.innerHTML = sectors[sector].content;
+    popup.classList.add("active");
+  }
+}
+
 // A nova função de inicialização da página
+window.onload = function () {
+  initMap();
+  showInfoFromUrl();
+};
+
+window.addEventListener("resize", initMap);
 window.onload = function () {
   initMap();
   showInfoFromUrl();
