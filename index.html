@@ -478,8 +478,6 @@
 
 // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
 function showInfoFromUrl() {
-      // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
-      function showInfoFromUrl() {
   const sectorId = getUrlParameter('setor');
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
@@ -489,26 +487,24 @@ function showInfoFromUrl() {
     // Limpa o conteúdo e define o novo
     popupTitle.innerHTML = sectorData.title;
     popupContent.innerHTML = `<p class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</p>${sectorData.content}`;
-    popupContent.innerHTML = sectorData.content;
     popupLocationMessage.innerHTML = `VOCÊ ESTÁ AQUI 🚩`;
 
     // Desenha o polígono destacado
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPermanentBordersAndIcons();
     drawPolygon(sectorData.coords, { stroke: '#ffffff', lineWidth: 6 });
-    drawSectorIcon(sectorId, sectorData.coords, sectorId.icon);
     drawSectorIcon(sectorId, sectorData.coords, sectorData.icon);
 
     popup.classList.add('active');
   }
 }
-      // A nova função de inicialização da página
-      window.onload = function () {
-        initMap();
-        showInfoFromUrl();
-      };
+// A nova função de inicialização da página
+window.onload = function () {
+  initMap();
+  showInfoFromUrl();
+};
 
-      window.addEventListener("resize", initMap);
+window.addEventListener("resize", initMap);
     </script>
   </body>
 </html>
