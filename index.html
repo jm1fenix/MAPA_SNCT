@@ -476,14 +476,19 @@
           : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
 
+// Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
+function showInfoFromUrl() {
       // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
       function showInfoFromUrl() {
   const sectorId = getUrlParameter('setor');
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
 
+    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" com a nova classe de destaque.
+    // O ponto final foi removido da string.
     // Limpa o conteúdo e define o novo
     popupTitle.innerHTML = sectorData.title;
+    popupContent.innerHTML = `<p class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</p>${sectorData.content}`;
     popupContent.innerHTML = sectorData.content;
     popupLocationMessage.innerHTML = `VOCÊ ESTÁ AQUI 🚩`;
 
@@ -491,6 +496,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPermanentBordersAndIcons();
     drawPolygon(sectorData.coords, { stroke: '#ffffff', lineWidth: 6 });
+    drawSectorIcon(sectorId, sectorData.coords, sectorId.icon);
     drawSectorIcon(sectorId, sectorData.coords, sectorData.icon);
 
     popup.classList.add('active');
