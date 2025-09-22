@@ -188,6 +188,18 @@
           display: block; /* Garante que a tag ocupa a largura total */
           width: 100%; /* Garante que a tag ocupa a largura total */
         }
+
+        #popup-location-message {
+          font-family: "Fredoka One", sans-serif;
+          font-size: 1.4em;
+          font-weight: 700;
+          color: #ef4444;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+          padding-bottom: 10px;
+          border-bottom: 2px dashed #ef4444;
+          margin-bottom: 15px;
+          text-align: center;
+        }
       }
     </style>
   </head>
@@ -212,6 +224,8 @@
           <button onclick="closeInfo()">×</button>
         </div>
         <div class="popup-content">
+          <div id="popup-location-message"></div>
+
           <p id="popup-content-text"></p>
         </div>
       </div>
@@ -225,6 +239,7 @@
       const canvas = document.getElementById("interactive-canvas");
       const ctx = canvas.getContext("2d");
       const mapContainer = document.querySelector(".map-container");
+      const popupLocationMessage = document.getElementById("popup-location-message");
 
       const sectors = {
         hall: {
@@ -461,22 +476,22 @@
           : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
 
-// Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
-function showInfoFromUrl() {
+      // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
+      function showInfoFromUrl() {
   const sectorId = getUrlParameter('setor');
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
 
-    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" com a nova classe de destaque.
-    // O ponto final foi removido da string.
+    // Limpa o conteúdo e define o novo
     popupTitle.innerHTML = sectorData.title;
-    popupContent.innerHTML = `<p class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</p>${sectorData.content}`;
+    popupContent.innerHTML = sectorData.content;
+    popupLocationMessage.innerHTML = `VOCÊ ESTÁ AQUI 🚩`;
 
     // Desenha o polígono destacado
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPermanentBordersAndIcons();
     drawPolygon(sectorData.coords, { stroke: '#ffffff', lineWidth: 6 });
-    drawSectorIcon(sectorId, sectorData.coords, sectorId.icon);
+    drawSectorIcon(sectorId, sectorData.coords, sectorData.icon);
 
     popup.classList.add('active');
   }
