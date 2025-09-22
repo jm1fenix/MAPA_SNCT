@@ -468,15 +468,13 @@
           : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
 
-// Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
-// Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
 function showInfoFromUrl() {
   const sectorId = getUrlParameter('setor');
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
 
-    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" no local correto
-    popupLocationMessage.innerHTML = `VOCÊ ESTÁ AQUI 🚩`;
+    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" e a classe de estilo
+    popupLocationMessage.innerHTML = `<span class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</span>`;
     popupTitle.innerHTML = sectorData.title;
     popupContent.innerHTML = sectorData.content;
 
@@ -489,7 +487,6 @@ function showInfoFromUrl() {
     popup.classList.add('active');
   }
 }
-
 // Função para exibir as informações do setor (sem a mensagem de localização)
 function showInfo(sector) {
   if (sectors[sector]) {
