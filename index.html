@@ -438,10 +438,42 @@
         popup.classList.remove("active");
       }
 
-      mapImg.onload = initMap;
-      if (mapImg.complete) {
-        initMap();
+      // Função para pegar o parâmetro da URL
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null
+          ? ""
+          : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
+
+      // Função para exibir o pop-up e a mensagem "VOCÊ ESTÁ AQUI"
+      function showInfoFromUrl() {
+        const sectorId = getUrlParameter("setor");
+        if (sectorId && sectors[sectorId]) {
+          const sectorData = sectors[sectorId];
+
+          // Adiciona a mensagem "VOCÊ ESTÁ AQUI" no pop-up
+          popupTitle.innerHTML = sectorData.title;
+          popupContent.innerHTML = `<p><strong>VOCÊ ESTÁ AQUI 🚩.</strong></p>${sectorData.content}`;
+
+          // Desenha o polígono destacado
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawPermanentBordersAndIcons();
+          drawPolygon(sectorData.coords, { stroke: "#ffffff", lineWidth: 6 });
+          drawSectorIcon(sectorId, sectorData.coords, sectorData.icon);
+
+          popup.classList.add("active");
+        }
+      }
+
+      // A nova função de inicialização da página
+      window.onload = function () {
+        initMap();
+        showInfoFromUrl();
+      };
+
       window.addEventListener("resize", initMap);
     </script>
   </body>
