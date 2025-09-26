@@ -145,23 +145,20 @@
     margin-right: 8px;
   }
 
-  /* Estilos para a mensagem "VOCÊ ESTÁ AQUI" */
   .popup-location-tag {
     font-family: "Fredoka One", sans-serif;
-    font-size: 1.2em; /* Reduzido de 1.4em para 1.2em */
+    font-size: 1.2em;
     font-weight: 700;
     color: #ef4444;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     padding-bottom: 10px;
-    /* border-bottom: 2px dashed #ef4444; */ /* REMOVIDO: Uma das linhas pontilhadas */
-    margin-top: 10px; /* Adicionado um pouco de margem acima */
+    margin-top: 10px;
     margin-bottom: 15px;
     text-align: center;
     display: block;
     width: 100%;
   }
 
-  /* Estilos específicos para mobile */
   @media (max-width: 768px) {
     .map-info {
       padding: 15px 10px;
@@ -186,14 +183,13 @@
     }
     .popup {
       width: 95%;
-      top: 55%; /* Ajustado para mover o pop-up um pouco para cima */
-      max-height: 70vh; /* Reduzido de 80vh para 70vh */
+      top: 55%;
+      max-height: 70vh;
       overflow-y: auto;
       padding: 20px;
       border-width: 3px;
       border-radius: 15px;
     }
-    /* #popup-location-message não é mais necessário aqui, pois .popup-location-tag é global */
   }
 </style>  </head>
   <body>
@@ -234,6 +230,7 @@
       const mapContainer = document.querySelector(".map-container");
       const popupLocationMessage = document.getElementById("popup-location-message");
 
+//coordenadas dos polígonos
       const sectors = {
         hall: {
           title: "Hall de Entrada",
@@ -362,7 +359,7 @@
         ctx.arc(center.x, center.y, iconSize, 0, Math.PI * 2, false);
         ctx.fillStyle = "rgba(245, 245, 220, 0.9)";
         ctx.fill();
-        ctx.strokeStyle = "#2a8e8e"; /* Verde-água */
+        ctx.strokeStyle = "#2a8e8e";
         ctx.lineWidth = 2;
         ctx.stroke();
 
@@ -379,7 +376,7 @@
           drawPolygon(sectors[id].coords, {
             stroke: "#2a8e8e",
             lineWidth: 4,
-          }); /* Verde-água */
+          });
           drawSectorIcon(id, sectors[id].coords, sectors[id].icon);
         }
       }
@@ -417,7 +414,7 @@
             drawPolygon(coords, {
               stroke: "#ffffff",
               lineWidth: 6,
-            }); /* Branco */
+            });
             drawSectorIcon(id, sectors[id].coords, sectors[id].icon);
             break;
           }
@@ -451,7 +448,6 @@
         popup.classList.remove("active");
       }
 
-      // Função para pegar o parâmetro da URL
       function getUrlParameter(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
@@ -466,12 +462,10 @@ function showInfoFromUrl() {
   if (sectorId && sectors[sectorId]) {
     const sectorData = sectors[sectorId];
 
-    // Adiciona a mensagem "VOCÊ ESTÁ AQUI" e a classe de estilo
     popupLocationMessage.innerHTML = `<span class="popup-location-tag">VOCÊ ESTÁ AQUI 🚩</span>`;
     popupTitle.innerHTML = sectorData.title;
     popupContent.innerHTML = sectorData.content;
 
-    // Desenha o polígono destacado
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPermanentBordersAndIcons();
     drawPolygon(sectorData.coords, { stroke: '#ffffff', lineWidth: 6 });
@@ -480,10 +474,8 @@ function showInfoFromUrl() {
     popup.classList.add('active');
   }
 }
-// Função para exibir as informações do setor (sem a mensagem de localização)
 function showInfo(sector) {
   if (sectors[sector]) {
-    // Remove a mensagem de localização, se houver
     popupLocationMessage.innerHTML = '';
     popupTitle.innerHTML = sectors[sector].title;
     popupContent.innerHTML = sectors[sector].content;
@@ -491,7 +483,6 @@ function showInfo(sector) {
   }
 }
 
-// A nova função de inicialização da página
 window.onload = function () {
   initMap();
   showInfoFromUrl();
